@@ -24,7 +24,6 @@ def _req(resource=None, params=None):
     else:
         params = {}
     req = requests.get(url, params=params)
-    print req.url
     return BeautifulSoup(req.content)
 
 

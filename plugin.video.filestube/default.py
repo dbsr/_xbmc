@@ -11,31 +11,35 @@ from urlparse import urlparse
 from _addon import Addon, cached
 import xbmcgui
 import xbmcplugin
+import xbmc
 import urlresolver
 
 import filestube
 from realdebrid import unrestrict_link, RealDebridAuthError
+from browser import Browser
 
 addon = Addon('plugin.video.filestube')
+b = Browser(addon.get_profile())
 
 @addon.route('/')
 def index():
     addon.add_directory(addon.queries_for('.search'), {'title': 'Search Filestube..'})
+    addon.add_directory(addon.queries_for('.browser'), {'title': 'Browser'})
     addon.add_directory(addon.queries_for('.settings'), {'title': 'Settings'})
     addon.end_of_directory()
 
 @addon.route('/search')
 def search():
     '''prompt user with search dialog, dispatch based on results'''
-    addon.show_search_dialog('Search Filestube:', results_callback, True)
+    addon.show_search_dialog('Search Filestube:', query, True)
 
 
 @addon.route('/settings')
 def settings():
     addon.show_settings()
 
-
-def results_callback(q):
+@addon.route('/query')
+def query(q):
     @cached('query.cache', 300 if addon.get_setting('cache_results') == 'true' else 0)
     def _cached_query(q):
         return filestube.query(q)
@@ -89,5 +93,33 @@ def resolve(url):
             resolved = resolved_url
     addon.resolve_url(resolved)
 
+
+@addon.route('/browser')
+def browser():
+    addon.add_directory(addon.queries_for('.browser_add'), {'title': 'add tvshow'})
+    for title in b.data['tvshows'].keys():
+        addon.add_directory(addon.queries_for('.browse', title=title), {
+            'title': title})
+    addon.end_of_directory()
+
+
+@addon.route('/browser_add')
+def browser_add():
+    addon.show_search_dialog('Name of Show:', add_callback, False)
+
+
+def add_callback(query):
+    b.add_tvshow(query)
+
+
+@addon.route('/browse')
+def browse(title):
+    tvshow_data = b.get_tvshow(title)
+    for _, season in sorted(tvshow_data.items()):
+        for s, e, etitle in sorted(season, key=lambda k: k[1]):
+            t = 'S{}E{} | {}'.format(str(s).zfill(2), str(e).zfill(2), etitle)
+            q = ' '.join(reversed([t.split('|')[0].strip(), title]))
+            addon.add_directory(addon.queries_for('.query', q=q), {'title': t})
+    addon.end_of_directory()
 
 addon.run(sys.argv)
