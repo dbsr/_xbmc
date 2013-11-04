@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<addon id="plugin.video._newznab" name="_newznab" provider-name="dbsr" version="0.1">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0" />
+        <import addon="script.module._addon" version="0.0.2" />
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Browse and stream media from newznab</summary>
+        <description>This addon uses the newznab api to browse media and pneumatic to stream media</description>
+        <platform>all</platform>
+    </extension>
+</addon>

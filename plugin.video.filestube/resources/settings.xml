@@ -1,0 +1,10 @@
+<settings>
+    <category label="settings">
+        <setting label="realdebrid login information (required)" type="lsep" />
+        <setting id="user" type="text" label="username" default="" />
+        <setting id="password" type="text" hidden="true" label="password" default="" />
+        <setting label="misc" type="lsep" />
+        <setting id="cache_results" type="bool" default="true" label="cache search results" />
+        <setting id="custom_regex_filter" type="text" default="" label="custom regex filter" />
+    </category>
+</settings>

@@ -35,7 +35,6 @@ class cached(object):
                 self.cache_fpath = os.path.join(ctx.get_profile(), 
                                                 os.path.basename(self.cache_fpath))
 
-            print self.cache_fpath
             _self = None
             if self.kwargs_key:
                 hkey = kwargs.get(self.kwargs_key)
