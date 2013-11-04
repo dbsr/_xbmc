@@ -16,7 +16,7 @@ I have also written a new cache implementation.
 ```python
 import sys
 
-from _addon import Addon, queries_for
+from _addon import Addon
 
 addon = Addon('plugin.example.id')
 
@@ -26,7 +26,7 @@ def index():
     # queries_for is like flask's url_for helper function. 
     # In this example it resolves / creates a correct xbmc uri for
     # the view function 'foo'.
-    addon.add_directory(queries_for('foo', id=1), {'title': 'goto id 1'})
+    addon.add_directory(addon.queries_for('foo', id=1), {'title': 'goto id 1'})
     addon.end_of_directory()
    
 # note: routes, except for the index/fallback route, do not have to start with '/'
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 from _addon import cached
 
 # the first argument is the name of the cache file. The decorator will
-# create a 'cached' directory in the addon's profile directory and store 
+# create a cached directory in the addon's profile directory and store 
 # all cache files there.
 # cached uses the function's name plus the values of its arguments to create
 # an unique hash key. If it finds the entry in the cache it will intercept
