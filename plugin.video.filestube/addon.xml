@@ -9,8 +9,8 @@
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
-        <summary>Browse and stream media from newznab</summary>
-        <description>This addon uses the newznab api to browse media and pneumatic to stream media</description>
+      <summary>Filestube search and play from within xbmc. Real-Debrid account required</summary>
+        <description>This addon uses the newznab api to browse media and pneum</description>
         <platform>all</platform>
     </extension>
 </addon>
