@@ -31,6 +31,7 @@ class Api(object):
     def unrestrict_link(self, link):
         req = requests.get(self.base_url + '/unrestrict.php', params={
             'link': link}, cookies=self.get_cookies())
+        print req.json()
         if req.ok and not req.json()['error']:
             return req.json()['main_link']
 

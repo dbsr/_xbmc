@@ -12,7 +12,7 @@ from _addon import Addon, cached
 import xbmcgui
 import xbmcplugin
 import xbmc
-import urlresolver
+#import urlresolver
 
 import filestube
 from realdebrid import unrestrict_link, RealDebridAuthError
@@ -81,14 +81,18 @@ def resolve(url):
     resolved = False
     hoster_url = filestube.resolve_url(url)
     if hoster_url:
+        addon.log('filestube :: hoster url found on url: {}'.format(url))
         if addon.get_setting('use_urlresolver') == 'true':
-            resolved_url = urlresolver.resolve(hoster_url)
+            # broken in gotham
+            # resolved_url = urlresolver.resolve(hoster_url)
+            pass
         else:
             try:
                 resolved_url = unrestrict_link(hoster_url, *map(addon.get_setting, ['user', 'password']))
             except RealDebridAuthError as e:
                 addon.show_error_dialog(['RealDebrid Auth Error:', e.message])
                 resolved_url = None
+            addon.log("resolved_url result: {}".format(resolved_url))
         if resolved_url:
             resolved = resolved_url
     addon.resolve_url(resolved)
